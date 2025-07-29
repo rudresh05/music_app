@@ -1,12 +1,21 @@
 package com.rudresh05.musicapp
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.rudresh05.musicapp.databinding.ActivityMainBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -15,6 +24,29 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+
         }
+//        binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+
+        val retrofitBuilder = Retrofit.Builder().baseUrl("https://deezerdevs-deezer.p.rapidapi.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiInterface::class.java)
+        val retrofitData = retrofitBuilder.getData("eminem")
+        retrofitData.enqueue(object : Callback<MyData?> {
+            override fun onResponse(call: Call<MyData?>, response: Response<MyData?>) {
+                 // if api works successfully then this method run and we get data from api
+                val dataList = response.body()?.data
+                val textView = findViewById<TextView>(R.id.textView)
+                textView.text = dataList.toString()
+                Log.d("TAG", "onResponse: " + response.body())
+            }
+
+            override fun onFailure(call: Call<MyData?>, t: Throwable) {
+                // if api fails then this method run
+                Log.d("Tag", "OnFailure: " + t.message)
+            }
+        })
     }
 }
