@@ -36,6 +36,7 @@ A modern, minimal Android music streaming app built with Kotlin. It fetches musi
 
 ---
 
+
 ## ⚙️ Setup Instructions
 
 1. **Clone the repo**
