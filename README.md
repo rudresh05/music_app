@@ -35,6 +35,8 @@ A modern, minimal Android music streaming app built with Kotlin. It fetches musi
 - Minimum SDK 21+
 
 ---
+## Download APP
+[Download APK](https://github.com/rudresh05/music_app/releases/download/v1.0/app-debug.apk)
 
 
 ## ⚙️ Setup Instructions
